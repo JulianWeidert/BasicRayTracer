@@ -1,0 +1,6 @@
+[submodule "extern/PixelWindow"]
+	path = extern/PixelWindow
+	url = https://github.com/JulianWeidert/PixelWindow.git
+[submodule "extern/LeptonMath"]
+	path = extern/LeptonMath
+	url = https://github.com/JulianWeidert/LeptonMath.git
