@@ -5,6 +5,7 @@
 #include <PixelWindow/PixelWindow.h>
 
 #include "Scene.h"
+#include "Camera.h"
 
 
 namespace brt {
@@ -21,7 +22,7 @@ namespace brt {
 		RayTracer(int width, int height);
 
 
-		void renderScene(const Scene& scene);
+		void renderScene(const Scene& scene, const Camera& camera);
 
 		void showOnWindow(pw::PixelWindow& window) const; 
 

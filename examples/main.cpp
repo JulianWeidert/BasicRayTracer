@@ -7,6 +7,7 @@
 #include "BasicRayTracer/RayTracer.h"
 #include "BasicRayTracer/Scene.h"
 #include "BasicRayTracer/Sphere.h"
+#include "BasicRayTracer/Camera.h"
 
 int main() {
 
@@ -14,11 +15,12 @@ int main() {
 
 	brt::RayTracer tracer = brt::RayTracer(640, 640);
 	
+	brt::Camera camera = brt::Camera(window->getWidth(), window->getHeight());
+
 	brt::Scene scene;
 	scene.addObject(std::make_unique<brt::Sphere>(lm::Vector3f({ 0,0,-1 }), 0.5f));
-	//scene.addObject(std::make_unique<brt::Sphere>(lm::Vector3f({ 1,0,-4 }), 1));
 
-	tracer.renderScene(scene);
+	tracer.renderScene(scene, camera);
 
 
 	window->makeCurrent();

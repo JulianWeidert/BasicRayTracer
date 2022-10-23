@@ -13,27 +13,13 @@ namespace brt {
 	}
 
 
-	void RayTracer::renderScene(const Scene& scene) {
-		// Canvas Coordinates:
-		// (-1,1,0)					(1,1,0)
-		//				(0,0,0)
-		// (-1,-1,0)				(1,-1,0)
-
-		lm::Vector3f origin = { 0,0,1 }; // For testing
-
-		int cnt = 0;
+	void RayTracer::renderScene(const Scene& scene, const Camera& camera) {
 
 		// for every pixel...
 		for (int y = 0; y < this->height; ++y) {
 			for (int x = 0; x < this->width; ++x) {
-				float canvasX = 2 * float(x) / this->width - 1.0f;
-				float canvasY = -(2 * float(y) / this->height - 1.0f);
-				float canvasZ = 0;
-
-				lm::Vector3f canvasCoord = { canvasX, canvasY, canvasZ };
-				auto dir = canvasCoord - origin;
-
-				auto ray = Ray(origin, dir);
+				
+				auto ray = camera.getRay(x, y);
 				int color = scene.traceScene(ray);
 
 				this->frameBuffer[size_t(y) * this->width + x] = color;
