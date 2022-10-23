@@ -1,11 +1,12 @@
 #include "BasicRayTracer/Sphere.h"
 
+#include <iostream>
 
 namespace brt {
 
 	Sphere::Sphere(lm::Vector3f center, float radius) : center(center), radius(radius) {}
 
-	bool Sphere::hit(const Ray& ray) const {
+	std::optional<HitResult> Sphere::hit(const Ray& ray) const {
 		auto oc = ray.getOrigin() - this->center; // origin - center
 		auto dd = ray.getDirection() * ray.getDirection(); // dir * dir
 
@@ -14,7 +15,13 @@ namespace brt {
 
 		auto discriminant = p * p / 4 - q;
 
-		return discriminant >= 0;
+		if (discriminant < 0) return {}; // Not hit return empty optional
+
+		auto pos = ray.getOrigin() + (-p / 2 - std::sqrt(discriminant)) * ray.getDirection(); // pos = origin + t * direction
+		auto normal = (pos - this->center).getNormalized();
+		auto color = 0.5f * (normal + lm::Vector3f({ 1,1,1 }));
+
+		return HitResult(pos, normal, color);
 	}
 
 

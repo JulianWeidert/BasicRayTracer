@@ -14,7 +14,7 @@ namespace brt {
 
 		explicit Sphere(lm::Vector3f center, float radius);
 
-		bool hit(const Ray& ray) const;
+		std::optional<HitResult> hit(const Ray& ray) const;
 
 
 		const lm::Vector3f& getCenter() const;

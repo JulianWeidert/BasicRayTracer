@@ -15,8 +15,8 @@ int main() {
 	brt::RayTracer tracer = brt::RayTracer(640, 640);
 	
 	brt::Scene scene;
-	scene.addObject(std::make_unique<brt::Sphere>(lm::Vector3f({ 0,0,-2 }), 1));
-	scene.addObject(std::make_unique<brt::Sphere>(lm::Vector3f({ 1,1,-3 }), 1));
+	scene.addObject(std::make_unique<brt::Sphere>(lm::Vector3f({ 0,0,-1 }), 0.5f));
+	//scene.addObject(std::make_unique<brt::Sphere>(lm::Vector3f({ 1,0,-4 }), 1));
 
 	tracer.renderScene(scene);
 

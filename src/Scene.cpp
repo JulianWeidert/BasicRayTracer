@@ -1,5 +1,6 @@
 
 #include "BasicRayTracer/Scene.h"
+#include "BasicRayTracer/Util.h"
 
 
 namespace brt {
@@ -10,12 +11,18 @@ namespace brt {
 
 	int Scene::traceScene(const Ray& ray) const {
 		// Just for testing
+
+		HitResult closestHit = HitResult({ 0,0,-10000000 }, {} , { 0,0,0 });
+
 		for (auto& obj : this->objects) {
-			bool hit = obj->hit(ray);
-			
-			if (hit) return 0xFFFFFFFF; // White if object intersected
+			auto hit = obj->hit(ray);
+			if (hit.has_value()) {
+				auto val = hit.value();
+				if ((closestHit.getPosition() - ray.getOrigin()).getLength() > (val.getPosition() - ray.getOrigin()).getLength()) closestHit = val;
+			}
+
 		}
-		return 0; // Black if no object intersected
+		return convertColor(closestHit.getColor());
 	}
 
 }
