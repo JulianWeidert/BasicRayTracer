@@ -1,6 +1,5 @@
 
 #include "BasicRayTracer/Scene.h"
-#include "BasicRayTracer/Util.h"
 
 
 namespace brt {
@@ -9,7 +8,7 @@ namespace brt {
 		this->objects.push_back(std::move(object));
 	}
 
-	int Scene::traceScene(const Ray& ray) const {
+	lm::Vector3f Scene::traceScene(const Ray& ray) const {
 		// Just for testing
 
 		HitResult closestHit = HitResult({ 0,0,-10000000 }, {} , { 0,0,0 });
@@ -22,7 +21,7 @@ namespace brt {
 			}
 
 		}
-		return convertColor(closestHit.getColor());
+		return closestHit.getColor();
 	}
 
 }

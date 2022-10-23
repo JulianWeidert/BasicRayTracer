@@ -1,7 +1,11 @@
 
+#include <ctime>
+#include <cstdlib>
+
 #include <LeptonMath/Vector.h>
 
 #include "BasicRayTracer/RayTracer.h"
+#include "BasicRayTracer/Util.h"
 
 #include <iostream>
 
@@ -13,16 +17,24 @@ namespace brt {
 	}
 
 
-	void RayTracer::renderScene(const Scene& scene, const Camera& camera) {
+	void RayTracer::renderScene(const Scene& scene, const Camera& camera, int samplesPerPixel) {
+
+		std::srand(std::time(nullptr));
 
 		// for every pixel...
 		for (int y = 0; y < this->height; ++y) {
 			for (int x = 0; x < this->width; ++x) {
 				
-				auto ray = camera.getRay(x, y);
-				int color = scene.traceScene(ray);
+				lm::Vector3f color = { 0, 0, 0};
 
-				this->frameBuffer[size_t(y) * this->width + x] = color;
+				for (int s = 0; s < samplesPerPixel; ++s) {
+					auto ray = camera.getRay(x + std::rand()/float(RAND_MAX), y + std::rand()/ float(RAND_MAX));
+					color = color + scene.traceScene(ray);
+				}
+
+				color = 1.0f / samplesPerPixel * color;
+
+				this->frameBuffer[size_t(y) * this->width + x] = convertColor(color);;
 			}
 		}
 	}

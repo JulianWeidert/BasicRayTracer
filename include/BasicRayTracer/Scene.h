@@ -14,7 +14,7 @@ namespace brt {
 	public:
 
 		void addObject(std::unique_ptr<Primitive> object);
-		int traceScene(const Ray& ray) const;
+		lm::Vector3f traceScene(const Ray& ray) const;
 
 	};
 

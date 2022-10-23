@@ -22,7 +22,7 @@ namespace brt {
 		RayTracer(int width, int height);
 
 
-		void renderScene(const Scene& scene, const Camera& camera);
+		void renderScene(const Scene& scene, const Camera& camera, int samplesPerPixel);
 
 		void showOnWindow(pw::PixelWindow& window) const; 
 
