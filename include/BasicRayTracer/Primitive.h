@@ -9,7 +9,7 @@ namespace brt {
 
 	class Primitive {
 	public:
-		virtual std::optional<HitResult> hit(const Ray& ray) const = 0;
+		virtual std::optional<HitResult> hit(const Ray& ray, float tMin, float tMax) const = 0;
 	};
 
 }

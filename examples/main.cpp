@@ -19,8 +19,9 @@ int main() {
 
 	brt::Scene scene;
 	scene.addObject(std::make_unique<brt::Sphere>(lm::Vector3f({ 0,0,-1 }), 0.5f));
+	scene.addObject(std::make_unique<brt::Sphere>(lm::Vector3f({ 0,-100.5, -1 }), 100.0f));
 
-	tracer.renderScene(scene, camera, 10);
+	tracer.renderScene(scene, camera, 1000);
 
 
 	window->makeCurrent();

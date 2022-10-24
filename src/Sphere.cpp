@@ -6,7 +6,7 @@ namespace brt {
 
 	Sphere::Sphere(lm::Vector3f center, float radius) : center(center), radius(radius) {}
 
-	std::optional<HitResult> Sphere::hit(const Ray& ray) const {
+	std::optional<HitResult> Sphere::hit(const Ray& ray, float tMin, float tMax) const {
 		auto oc = ray.getOrigin() - this->center; // origin - center
 		auto dd = ray.getDirection() * ray.getDirection(); // dir * dir
 
@@ -17,7 +17,11 @@ namespace brt {
 
 		if (discriminant < 0) return {}; // Not hit return empty optional
 
-		auto pos = ray.getOrigin() + (-p / 2 - std::sqrt(discriminant)) * ray.getDirection(); // pos = origin + t * direction
+		float t = (-p / 2 - std::sqrt(discriminant));
+
+		if (t >= tMax || t <= tMin) return {};
+
+		auto pos = ray.getOrigin() + t * ray.getDirection(); // pos = origin + t * direction
 		auto normal = (pos - this->center).getNormalized();
 		auto color = 0.5f * (normal + lm::Vector3f({ 1,1,1 }));
 

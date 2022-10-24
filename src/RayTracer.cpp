@@ -29,7 +29,7 @@ namespace brt {
 
 				for (int s = 0; s < samplesPerPixel; ++s) {
 					auto ray = camera.getRay(x + std::rand()/float(RAND_MAX), y + std::rand()/ float(RAND_MAX));
-					color = color + scene.traceScene(ray);
+					color = color + scene.traceScene(ray, -1, 1000);
 				}
 
 				color = 1.0f / samplesPerPixel * color;
