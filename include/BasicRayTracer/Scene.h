@@ -11,10 +11,6 @@ namespace brt {
 	class Scene {
 	private:
 		std::vector<std::unique_ptr<Primitive>> objects;
-		RNG32 rng;
-
-		lm::Vector3f genPointUnitSphere();
-		lm::Vector3f genPointUnitHemisphere(const lm::Vector3f& normal);
 
 	public:
 

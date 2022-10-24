@@ -4,7 +4,7 @@
 
 namespace brt {
 
-	Sphere::Sphere(lm::Vector3f center, float radius) : center(center), radius(radius) {}
+	Sphere::Sphere(lm::Vector3f center, float radius, std::shared_ptr<Material> material) : center(center), radius(radius), material(material) {}
 
 	std::optional<HitResult> Sphere::hit(const Ray& ray, float tMin, float tMax) const {
 		auto oc = ray.getOrigin() - this->center; // origin - center
@@ -23,9 +23,8 @@ namespace brt {
 
 		auto pos = ray.getOrigin() + t * ray.getDirection(); // pos = origin + t * direction
 		auto normal = (pos - this->center).getNormalized();
-		auto color = 0.5f * (normal + lm::Vector3f({ 1,1,1 }));
 
-		return HitResult(pos, normal, color);
+		return HitResult(pos, normal, this->material);
 	}
 
 

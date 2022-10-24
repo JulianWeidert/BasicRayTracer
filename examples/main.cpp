@@ -8,6 +8,8 @@
 #include "BasicRayTracer/Scene.h"
 #include "BasicRayTracer/Sphere.h"
 #include "BasicRayTracer/Camera.h"
+#include "BasicRayTracer/Lambertian.h"
+#include "BasicRayTracer/Metal.h"
 
 int main() {
 
@@ -17,11 +19,18 @@ int main() {
 	
 	brt::Camera camera = brt::Camera(window->getWidth(), window->getHeight());
 
-	brt::Scene scene;
-	scene.addObject(std::make_unique<brt::Sphere>(lm::Vector3f({ 0,0,-1 }), 0.5f));
-	scene.addObject(std::make_unique<brt::Sphere>(lm::Vector3f({ 0,-100.5, -1 }), 100.0f));
+	auto shinyLeft = std::make_shared<brt::Metal>(lm::Vector3f({ 0.8f,0.8f, 0.8f }));
+	auto shinyRight = std::make_shared<brt::Metal>(lm::Vector3f({ 0.8f,0.6f, 0.2f }));
+	auto mattGround = std::make_shared<brt::Lambertian>(lm::Vector3f({ 0.8f, 0.8f, 0 }));
+	auto mattCenter = std::make_shared<brt::Lambertian>(lm::Vector3f({ 0.7f, 0.3f, 0.3f }));
 
-	tracer.renderScene(scene, camera, 1000);
+	brt::Scene scene;
+	scene.addObject(std::make_unique<brt::Sphere>(lm::Vector3f({ 0,0,-1 }), 0.5f, mattCenter));
+	scene.addObject(std::make_unique<brt::Sphere>(lm::Vector3f({ 0,-100.5, -1 }), 100.0f, mattGround));
+	scene.addObject(std::make_unique<brt::Sphere>(lm::Vector3f({ 1,0,-1 }), 0.5f, shinyRight));
+	scene.addObject(std::make_unique<brt::Sphere>(lm::Vector3f({ -1,0,-1 }), 0.5f, shinyLeft));
+
+	tracer.renderScene(scene, camera, 10);
 
 
 	window->makeCurrent();
