@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <limits>
 
 #include <PixelWindow/PixelWindow.h>
 
@@ -22,7 +23,7 @@ namespace brt {
 		RayTracer(int width, int height);
 
 
-		void renderScene(const Scene& scene, const Camera& camera, int samplesPerPixel);
+		void renderScene(Scene& scene, const Camera& camera, int samplesPerPixel);
 
 		void showOnWindow(pw::PixelWindow& window) const; 
 

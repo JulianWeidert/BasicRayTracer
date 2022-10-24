@@ -6,6 +6,7 @@
 
 #include "BasicRayTracer/RayTracer.h"
 #include "BasicRayTracer/Util.h"
+#include "BasicRayTracer/Random.h"
 
 #include <iostream>
 
@@ -17,9 +18,9 @@ namespace brt {
 	}
 
 
-	void RayTracer::renderScene(const Scene& scene, const Camera& camera, int samplesPerPixel) {
+	void RayTracer::renderScene(Scene& scene, const Camera& camera, int samplesPerPixel) {
 
-		std::srand(std::time(nullptr));
+		RNG32 rng;
 
 		// for every pixel...
 		for (int y = 0; y < this->height; ++y) {
@@ -27,8 +28,10 @@ namespace brt {
 				
 				lm::Vector3f color = { 0, 0, 0};
 
+				constexpr unsigned int max = std::numeric_limits<unsigned int>::max();
+
 				for (int s = 0; s < samplesPerPixel; ++s) {
-					auto ray = camera.getRay(x + std::rand()/float(RAND_MAX), y + std::rand()/ float(RAND_MAX));
+					auto ray = camera.getRay(x + rng.next()/float(max), y + rng.next()/ float(max));
 					color = color + scene.traceScene(ray, -1, 1000);
 				}
 
