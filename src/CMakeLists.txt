@@ -3,7 +3,7 @@ set(INCLUDE_DIR "${BasicRayTracer_SOURCE_DIR}/include/BasicRayTracer")
 set(SRC 
 	"${INCLUDE_DIR}/RayTracer.h"
 	"RayTracer.cpp"
-  "Ray.cpp" "Sphere.cpp" "Scene.cpp" "HitResult.cpp" "Util.cpp" "Camera.cpp" "Random.cpp" "Lambertian.cpp" "Metal.cpp")
+  "Ray.cpp" "Sphere.cpp" "Scene.cpp" "HitResult.cpp" "Util.cpp" "Camera.cpp" "Random.cpp" "Lambertian.cpp" "Metal.cpp" "Dielectric.cpp")
 
 add_library(BasicRayTracer ${SRC})
 

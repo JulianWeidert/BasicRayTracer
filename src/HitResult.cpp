@@ -3,7 +3,10 @@
 
 namespace brt {
 
-	HitResult::HitResult(lm::Vector3f position, lm::Vector3f normal, std::shared_ptr<Material> material) : position(position), normal(normal), material(material){}
+	HitResult::HitResult(lm::Vector3f position, lm::Vector3f normal, lm::Vector3f rayDir, std::shared_ptr<Material> material) : position(position), material(material){
+		this->frontFace = (rayDir * normal) < 0;
+		this->normal = this->frontFace ? normal : -normal;
+	}
 
 	const lm::Vector3f& HitResult::getPosition() const {
 		return this->position;
@@ -17,5 +20,8 @@ namespace brt {
 		return this->material;
 	}
 
+	bool HitResult::isFrontFace() const {
+		return this->frontFace;
+	}
 
 }

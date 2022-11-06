@@ -10,6 +10,7 @@
 #include "BasicRayTracer/Camera.h"
 #include "BasicRayTracer/Lambertian.h"
 #include "BasicRayTracer/Metal.h"
+#include "BasicRayTracer/Dielectric.h"
 
 int main() {
 
@@ -24,13 +25,17 @@ int main() {
 	auto mattGround = std::make_shared<brt::Lambertian>(lm::Vector3f({ 0.8f, 0.8f, 0 }));
 	auto mattCenter = std::make_shared<brt::Lambertian>(lm::Vector3f({ 0.7f, 0.3f, 0.3f }));
 
+	auto dielcLeft1 = std::make_shared<brt::Dielectric>(1.5f);
+	auto dielcLeft2 = std::make_shared<brt::Dielectric>(1.5f);
+	auto dielcRight = std::make_shared<brt::Dielectric>(1.8f);
+
 	brt::Scene scene;
 	scene.addObject(std::make_unique<brt::Sphere>(lm::Vector3f({ 0,0,-1 }), 0.5f, mattCenter));
 	scene.addObject(std::make_unique<brt::Sphere>(lm::Vector3f({ 0,-100.5, -1 }), 100.0f, mattGround));
 	scene.addObject(std::make_unique<brt::Sphere>(lm::Vector3f({ 1,0,-1 }), 0.5f, shinyRight));
-	scene.addObject(std::make_unique<brt::Sphere>(lm::Vector3f({ -1,0,-1 }), 0.5f, shinyLeft));
+	scene.addObject(std::make_unique<brt::Sphere>(lm::Vector3f({ -1,0,-1 }), 0.5f, dielcLeft1));
 
-	tracer.renderScene(scene, camera, 10);
+	tracer.renderScene(scene, camera, 1000);
 
 
 	window->makeCurrent();

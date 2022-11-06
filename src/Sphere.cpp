@@ -24,7 +24,7 @@ namespace brt {
 		auto pos = ray.getOrigin() + t * ray.getDirection(); // pos = origin + t * direction
 		auto normal = (pos - this->center).getNormalized();
 
-		return HitResult(pos, normal, this->material);
+		return HitResult(pos, normal, ray.getDirection(), this->material);
 	}
 
 
