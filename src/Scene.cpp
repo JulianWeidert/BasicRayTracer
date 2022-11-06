@@ -37,7 +37,7 @@ namespace brt {
 			if (mat != nullptr) {
 				auto scatter = mat->scatter(ray, closestHit);
 				if (scatter.has_value()) {
-					auto res = this->traceScene(scatter.value().first, 0.0001, tMax, depth - 1);
+					auto res = this->traceScene(scatter.value().first, 0.001, tMax, depth - 1);
 					auto color = scatter.value().second;
 					return lm::Vector3f({ res.getX() * color.getX(), res.getY() * color.getY(), res.getZ() * color.getZ() });
 				}
