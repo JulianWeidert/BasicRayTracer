@@ -3,21 +3,36 @@
 
 namespace brt {
 
-	Camera::Camera(int width, int height, lm::Vector3f origin, float filmZ) : viewportWidth(width), viewportHeight(height), origin(origin), filmZ(filmZ) {}
+	Camera::Camera(int width, int height, float fov, lm::Vector3f lookFrom, lm::Vector3f lookAt, lm::Vector3f vUp) : 
+		viewportWidth(width), viewportHeight(height), fov(fov), origin(lookFrom), lookAt(lookAt), vUp(vUp) {}
 
-	Camera::Camera(int width, int height) : viewportWidth(width), viewportHeight(height), origin({ 0,0,1 }), filmZ(0) {}
+	Camera::Camera(int width, int height, float fov) : 
+		Camera(width, height, fov, { 0, 0, 0 }, { 0,0,-1 }, { 0,1,0 }) {}
 
 	const Ray Camera::getRay(float x, float y) const {
-		// TODO
-		static float aspectRatio = float(this->viewportWidth) / float(this->viewportHeight);
 
-		float filmX = (2.0f * x / float(this->viewportWidth) - 1.0)/ aspectRatio;
-		float filmY = -(2.0f * y / float(this->viewportHeight) - 1.0);
+		static auto aspectRatio = float(this->viewportWidth) / float(this->viewportHeight);
+		static auto rad = this->fov / 180 * 3.141592f;
+		static auto h = std::tanf(rad/2);
+		static auto vpHeight = 2.0f * h;
+		static auto vpWidth = aspectRatio * vpHeight;
+		
+		static auto w = (this->origin - this->lookAt).getNormalized();
+		static auto u = (lm::cross(this->vUp, w)).getNormalized();
+		static auto v = lm::cross(w, u).getNormalized();
 
-		lm::Vector3f filmPos = { filmX, filmY, this->filmZ };
-		lm::Vector3f direction = filmPos - this->origin;
+		static auto horizontal = vpWidth * u;
+		static auto vertical = vpHeight * v;
 
-		return Ray(filmPos, direction);
+		float s = x / float(this->viewportWidth);
+		float t = y / float(this->viewportHeight);
+
+		auto filmX = s * horizontal - 0.5f * horizontal;
+		auto filmY = -(t * vertical - 0.5f * vertical);
+
+		auto filmPos = origin + filmX + filmY - w;
+
+		return Ray(origin, filmPos - origin);
 	}
 
 	const int Camera::getViewportWidth() const {

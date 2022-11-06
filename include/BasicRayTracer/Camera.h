@@ -10,12 +10,14 @@ namespace brt {
 	private:
 		int viewportWidth;
 		int viewportHeight;
+		float fov;
 
 		lm::Vector3f origin;
-		float filmZ;
+		lm::Vector3f lookAt;
+		lm::Vector3f vUp;
 	public:
-		explicit Camera(int width, int height, lm::Vector3f origin, float filmZ);
-		explicit Camera(int width, int height);
+		explicit Camera(int width, int height, float fov, lm::Vector3f lookFrom, lm::Vector3f lookAt, lm::Vector3f vUp);
+		explicit Camera(int width, int height, float fov);
 			
 		const Ray getRay(float x, float y) const;
 

@@ -31,8 +31,9 @@ namespace brt {
 				constexpr unsigned int max = std::numeric_limits<unsigned int>::max();
 
 				for (int s = 0; s < samplesPerPixel; ++s) {
+					
 					auto ray = camera.getRay(x + rng.next()/float(max), y + rng.next()/ float(max));
-					color = color + scene.traceScene(ray, -1, 1000, 50);
+					color = color + scene.traceScene(ray, 0, 1000, 50);
 				}
 
 				color = 1.0f / samplesPerPixel * color;
